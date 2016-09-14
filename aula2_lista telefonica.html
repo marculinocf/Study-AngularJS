@@ -1,0 +1,97 @@
+<!--o angular js trabalha do seguinte modo: ele tem a views(que é o fronte-end) tem o controller e o scope que intermedia a comunicação da viewr e o controller-->
+<!DOCTYPE html>
+<!-- ng-app é um atributo do angularjs e listaTelefonica é o nome da nossa aplicação que seria o modulo -->
+<html ng-app="listaTelefonica">
+<head>
+	<title>Lista telefonica</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-8">
+	<script src="angular-1.5.8/angular.js"></script>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+
+	<script>
+		//aqui estou criando o modulo listaTelefonica que foi declarado na tag html depois do atributo ag-app
+		angular.module("listaTelefonica", []); //o colchetes permita a injeção de novos modulos
+		//diferente do comando de cima que cria o modulo este abaixo sem chaves eu localizo um modulo
+		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
+			$scope.app="Lista Telefonica";
+			$scope.mensagem="deu piriri"
+			$scope.contatos=[
+				{nome:"Pedro", telefone:"99998888"},
+				{nome:"Ana", telefone:"99997777"},
+				{nome:"Maria", telefone:"99996666"}
+			];
+			/*$scope.adicionarContato = function(nome, telefone){
+				//esta forma é a pior possivel, menos segura
+				$scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone
+			};*/
+
+			/*$scope.adicionarContato = function(nome, telefone){
+				//esta forma é a mais complicada
+				//esta forma aqui estou recebendo sobre paramentros na função
+				$scope.contatos.push({nome: nome, telefone: telefone});	
+			};*/
+
+			$scope.adicionarContato = function(addcontato){
+				//esta forma é a melhor
+				//esta forma aqui estou recebendo sobre paramentros na função, porem na tag input no ngmodel eu tenho que declarar a palavra contato assim: ng-model="addcontato.nome", porem se eu deixar assim ele vai adicionar a primeira vez e depois irá dar um erro ao tentar adicionar novamente. Em segundo ligar ao modificar o texto no imput ele vai alterar de forma altomatica na minha tabela. para corrigir isso deve-se usar o copy ou o delet
+				$scope.contatos.push(addcontato);
+				//usando o copy
+				//$scope.contatos.push(angular.copy(addcontato));
+				//usando o delet
+				delete $scope.addcontato;
+			};
+		});
+	</script>
+</head>
+	<!-- no body abaixo eu declarei que ele recebe meu controler com o atributo ng-controller e colocando o nome do meu controller listaTelefonica -->
+	<body ng-controller="listaTelefonicaCtrl">
+			<!-- formas de apresentar o que esta dentro do meu scope -->
+
+			<!-- 1ª abaixo as chaves eu coloco o que esta dentro do meu scope. Como o controler esta na tag body, eu posso usar as chaver em qualquer lugar desde que esteja dentro da tag body que funcionara. No caso das chaves eu posso concatenar.-->
+			{{mensagem + ' concatenei' }}
+			<!-- 2ª -->
+			<h4 >{{mensagem}}</h4>
+			<div class="jumbotron">
+				<!-- 3ª eu posso usar o que esta dentro do meu scope dentro da minha tag colocando ng-bind= e o nome do meu scope que no caso eu usei a palavra app. ng-bind mostra o que tem dentro do scope do meu controler -->
+				<h3 ng-bind="app"></h3>
+				
+				<!-- A primeira forma de lhe dar com o ng-repeat -->
+				<table class="table table-striped">
+					<tr>
+						<th>Nome</th>
+						<th>Telefone</th>
+					</tr>
+					<tr ng-repeat="contato in contatos">
+						<td>{{contato.nome}}</td>
+						<td>{{contato.telefone}}</td>
+					</tr>
+				</table>
+
+				<!-- A segunda forma de lhe dar com o ng-repeat -->
+				<table class="table table-striped">
+					<tr>
+						<th>Nome</th>
+						<th>Telefone</th>
+					</tr>
+					<tr ng-repeat="contato in contatos">
+						<td ng-repeat="(key, value) in contato">
+							<!-- key eu apresento o indice e value o valor -->
+							{{key + ' - ' + value}}
+						</td>
+					</tr>
+				</table>
+				<input class="form-control" type="text" ng-model="addcontato.nome" placeholder="nome" />
+				<input class="form-control" type="text" ng-model="addcontato.telefone" placeholder="telefone" />
+				<button class="btn btn-primary btn-block" ng-click="adicionarContato(addcontato)">Adicionar Contato</button>
+			</div>
+
+
+		<div>
+	      <label>Name:</label>
+	      <input type="text" ng-model="yourName" placeholder="Enter a name here">
+	      <hr>
+	      <h1>Hello {{yourName}}!</h1>
+	    </div>
+
+	</body>
+</html>

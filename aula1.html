@@ -1,0 +1,35 @@
+<!--o angular js trabalha do seguinte modo: ele tem a views(que é o fronte-end) tem o controller e o scope que intermedia a comunicação da viewr e o controller-->
+<!DOCTYPE html>
+<!-- ng-app é um atributo do angular-js e helloWord é o nome da nossa aplicação que seria o modulo -->
+<html ng-app="helloWorld">
+<head>
+	<title>exercicio</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-8">
+	<script src="angular-1.5.8/angular.js"></script>
+	<script>
+		//aqui estou criando o modulo helloWorld que foi declarado na tag html depois do atributo ag-app
+		angular.module("helloWorld", []); //o colchetes permita a injeção de novos modulos
+		//diferente do comando de cima que cria o modulo este abaixo sem chaves eu localizo um modulo
+		angular.module("helloWorld").controller("helloWorldCtrl", function($scope){
+			$scope.message="Olá Mundo";
+			$scope.banana="deu piriri"
+		});
+	</script>
+</head>
+	<body>
+		<!-- na div abaixo eu declarei que ele recebe meu controler com o atributo ng-controller e colocando o nome do meu controller helloWorldCtrl -->
+		<div ng-controller="helloWorldCtrl">
+			<!-- abaixo as chaves eu coloco o que esta dentro do meu scope. Se as chaves estiverem fora da div -->
+			{{message}}
+			{{banana}}
+		</div>
+
+		<div>
+	      <label>Name:</label>
+	      <input type="text" ng-model="yourName" placeholder="Enter a name here">
+	      <hr>
+	      <h1>Hello {{yourName}}!</h1>
+	    </div>
+
+	</body>
+</html>
